@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button [routerLink]="['/home']">
+      <ion-button [routerLink]="['/home']" (click)="updateNote()">
         <ion-icon name="return-up-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -15,6 +15,6 @@
 
 <ion-content>
 <div class="content">
-  <ion-textarea cols="30" rows="20"></ion-textarea>
+  <ion-textarea cols="30" rows="20" [(ngModel)]="note"></ion-textarea>
 </div>
 </ion-content>

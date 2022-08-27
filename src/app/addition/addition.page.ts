@@ -1,3 +1,4 @@
+import { GlobalToastService } from './../services/global-toast.service';
 import { Notes } from './../entities/Notes';
 import { NotesRequestService } from './../services/notes-request.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,23 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdditionPage implements OnInit {
   public description: string;
-  constructor(private notesRequest: NotesRequestService) { }
+  constructor(private notesRequest: NotesRequestService,
+              private globalToastService: GlobalToastService) { }
 
   ngOnInit() {
   }
 
-  createNote() {
+  async createNote() {
     const data = {
       description: this.description || "",
       date: new Date()
     }
     try {
       const note = new Notes(data)
-      this.notesRequest.createNotes(note)
+      await this.notesRequest.createNotes(note);
+      this.globalToastService.presentToast("Nota salva com sucesso","success");
     } catch (err) {
-      console.log({
-        error: err.message
-      })
+      this.globalToastService.presentToast(err.message, "danger")
     }
   }
 

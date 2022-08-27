@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'edition',
+    path: 'edition/:id',
     loadChildren: () => import('./edition/edition.module').then( m => m.EditionPageModule)
   },
   {
