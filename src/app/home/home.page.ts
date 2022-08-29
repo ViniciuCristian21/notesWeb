@@ -1,3 +1,4 @@
+import { AlertToDeleteService } from './services/alert-to-delete.service';
 import { GlobalToastService } from './../services/global-toast.service';
 import { NotesRequestService } from './../services/notes-request.service';
 import { Component } from '@angular/core';
@@ -14,7 +15,8 @@ export class HomePage {
 
   constructor(
     private notesRequest: NotesRequestService,
-    private globalToastService: GlobalToastService)
+    private globalToastService: GlobalToastService,
+    private alertToDeleteService: AlertToDeleteService)
   {
     this.hasChange = false;
 
@@ -27,6 +29,13 @@ export class HomePage {
       console.log("[GET-NOTES]",this.allNotes)
     } catch (err) {
       console.log(err.message)
+    }
+  }
+
+  async callToDeleteNote(id: string) {
+    let data = await this.alertToDeleteService.presentAlert();
+    if(data === "confirm"){
+      this.deleteNote(id)
     }
   }
 

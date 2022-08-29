@@ -1,3 +1,4 @@
+import { GlobalToastService } from './../services/global-toast.service';
 import { NotesRequestService } from './../services/notes-request.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -12,6 +13,7 @@ export class EditionPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private notesRequest: NotesRequestService,
+    private globalToastService: GlobalToastService,
   ) { }
   public note: string;
   private nId: string;
@@ -26,14 +28,22 @@ export class EditionPage implements OnInit {
 
 
   async getOneNoteForId(id: string) {
-    const note = await this.notesRequest.getOneNote(id);
-
-    this.note = note.data.description;
-    console.log(note.data)
+    try {
+      const note = await this.notesRequest.getOneNote(id);
+      this.note = note.data.description;
+      console.log(note.data)
+    } catch (err) {
+      this.globalToastService.presentToast(err.message, "danger")
+    }
   }
 
   async updateNote() {
-    await this.notesRequest.updateNotes(this.nId, this.note);
+    try {
+      await this.notesRequest.updateNotes(this.nId, this.note);
+      this.globalToastService.presentToast("Atualizado com sucesso.", "success")
+    } catch (err) {
+      this.globalToastService.presentToast(err.message, "danger")
+    }
   }
 
 }
